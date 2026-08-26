@@ -1,6 +1,7 @@
 import { and, asc, eq, isNotNull, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { articles, type Article, type Persona } from "@/lib/db/schema";
+import { rankArticles } from "./search";
 
 export type { Article, Persona, Topic } from "@/lib/db/schema";
 
@@ -38,4 +39,8 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     .limit(1);
 
   return article ?? null;
+}
+
+export async function searchArticles(query: string): Promise<Article[]> {
+  return rankArticles(await listArticles(), query);
 }

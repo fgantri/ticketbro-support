@@ -37,6 +37,15 @@ One entity so far: `articles`. Help articles are titled as questions the user
 would actually ask, and `home_rank` pins an article to the home page at a fixed
 position — `NULL` means it is only reachable through search.
 
+## Pages
+
+| Route | Description |
+| --- | --- |
+| `/` | Search bar and the six top questions |
+| `/search?q=` | Ranked results; no match links on to find-booking |
+| `/articles/[slug]` | A single article |
+| `/find-booking` | Order number + email lookup (see Status below) |
+
 ## API
 
 | Route | Description |
@@ -45,3 +54,10 @@ position — `NULL` means it is only reachable through search.
 | `GET /api/articles?persona=customer` | Filter by persona (`customer`, `provider`) |
 | `GET /api/articles?top` | Only articles pinned to the home page |
 | `GET /api/articles?limit=6` | Cap the number of results |
+
+## Status
+
+Search and the booking lookup form are built. Bookings themselves are not
+modelled yet, so `/find-booking` always answers with the generic
+"no booking found" error — the wiring is there, the table is not. Rate
+limiting (SPEC.md §2) and the provider flows are out of scope for now.
