@@ -1,14 +1,22 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import { ArticleCard } from "@/components/article-card";
 import { SearchBar } from "@/components/search-bar";
 import { listArticles } from "@/lib/articles";
+import { getPersona } from "@/lib/persona";
 
-// Articles come from the database, which Next cannot see changing at build
-// time. Render per request so a reseed or an edit shows up immediately.
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
+
+  const persona = await getPersona();
+
+  if (!persona) {
+    redirect("/start");
+  }
+
   const topQuestions = await listArticles({
-    persona: "customer",
+    persona,
     pinnedOnly: true,
     limit: 6,
   });
@@ -38,6 +46,13 @@ export default async function Home() {
           ))}
         </ul>
       </section>
+
+      <p className="mt-10 text-sm text-neutral-500">
+        Showing help for customers.{" "}
+        <Link href="/start" className="underline hover:text-neutral-900">
+          Not you?
+        </Link>
+      </p>
     </main>
   );
 }
