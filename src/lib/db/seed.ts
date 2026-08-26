@@ -1,6 +1,15 @@
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 import { db, DB_FILE } from "./index";
-import { articles, type NewArticle } from "./schema";
+import {
+  articles,
+  orderEvents,
+  orders,
+  type EventType,
+  type NewArticle,
+  type NewOrder,
+  type NewShop,
+  shops,
+} from "./schema";
 
 const SEED_ARTICLES: NewArticle[] = [
   {
@@ -86,10 +95,223 @@ const SEED_ARTICLES: NewArticle[] = [
   },
 ];
 
+const SEED_SHOPS: NewShop[] = [
+  {
+    id: "shop_tollwood",
+    name: "Tollwood Tickets",
+    supportEmail: "service@tollwood-tickets.example",
+  },
+  {
+    id: "shop_backstage",
+    name: "Backstage Halle",
+    supportEmail: "hilfe@backstage-halle.example",
+  },
+  {
+    id: "shop_elbphilharmonie",
+    name: "Elbphilharmonie Shop",
+    supportEmail: "tickets@elbphilharmonie-shop.example",
+  },
+  {
+    id: "shop_opennord",
+    name: "Open Air Nord",
+    supportEmail: "kontakt@openairnord.example",
+  },
+];
+
+type SeedOrder = {
+  order: NewOrder;
+  events: { type: EventType; hoursAgo: number; detail?: string }[];
+};
+
+const NOW = Date.now();
+const timestamp = (hoursAgo: number) => new Date(NOW - hoursAgo * 3_600_000);
+const inDays = (days: number) => new Date(NOW + days * 86_400_000);
+
+const SEED_ORDERS: SeedOrder[] = [
+  {
+    order: {
+      id: "ord_001",
+      orderNumber: "TB-100001",
+      email: "lena.mayer@example.com",
+      shopId: "shop_tollwood",
+      product: "Winterfestival — 2 tickets",
+      eventDate: inDays(34),
+      priceCents: 8900,
+    },
+    events: [
+      { type: "order_placed", hoursAgo: 72 },
+      { type: "payment_confirmed", hoursAgo: 72, detail: "Credit card" },
+      {
+        type: "tickets_sent",
+        hoursAgo: 71,
+        detail: "Sent to lena.mayer@example.com",
+      },
+    ],
+  },
+  {
+    order: {
+      id: "ord_002",
+      orderNumber: "TB-100002",
+      email: "jonas.k@exampl.com",
+      shopId: "shop_backstage",
+      product: "Kettcar live — 1 ticket",
+      eventDate: inDays(12),
+      priceCents: 4200,
+    },
+    events: [
+      { type: "order_placed", hoursAgo: 50 },
+      { type: "payment_confirmed", hoursAgo: 50, detail: "PayPal" },
+      {
+        type: "tickets_sent",
+        hoursAgo: 49,
+        detail: "Sent to jonas.k@exampl.com",
+      },
+      {
+        type: "mail_bounced",
+        hoursAgo: 49,
+        detail: "Mailbox does not exist",
+      },
+    ],
+  },
+  {
+    order: {
+      id: "ord_003",
+      orderNumber: "TB-100003",
+      email: "s.hoffmann@example.com",
+      shopId: "shop_elbphilharmonie",
+      product: "Abendkonzert — 2 tickets",
+      eventDate: inDays(58),
+      priceCents: 15400,
+    },
+    events: [
+      { type: "order_placed", hoursAgo: 20 },
+      {
+        type: "payment_pending",
+        hoursAgo: 20,
+        detail: "Bank transfer, not settled yet",
+      },
+    ],
+  },
+  {
+    order: {
+      id: "ord_004",
+      orderNumber: "TB-100004",
+      email: "m.bauer@example.com",
+      shopId: "shop_backstage",
+      product: "Indie Night — 3 tickets",
+      eventDate: inDays(21),
+      priceCents: 7500,
+    },
+    events: [
+      { type: "order_placed", hoursAgo: 96 },
+      { type: "payment_pending", hoursAgo: 96, detail: "Credit card" },
+      { type: "payment_failed", hoursAgo: 92, detail: "Card declined" },
+    ],
+  },
+  {
+    order: {
+      id: "ord_005",
+      orderNumber: "TB-100005",
+      email: "clara.wolf@example.com",
+      shopId: "shop_opennord",
+      product: "Sommerfest — 2 tickets",
+      eventDate: inDays(90),
+      priceCents: 11000,
+    },
+    events: [
+      { type: "order_placed", hoursAgo: 240 },
+      { type: "payment_confirmed", hoursAgo: 240, detail: "SEPA" },
+      {
+        type: "tickets_sent",
+        hoursAgo: 239,
+        detail: "Sent to clara.wolf@example.com",
+      },
+      {
+        type: "event_cancelled",
+        hoursAgo: 12,
+        detail: "Organiser cancelled the event",
+      },
+    ],
+  },
+  {
+    order: {
+      id: "ord_006",
+      orderNumber: "TB-100006",
+      email: "t.richter@example.com",
+      shopId: "shop_tollwood",
+      product: "Comedy Abend — 1 ticket",
+      eventDate: inDays(45),
+      priceCents: 3200,
+    },
+    events: [
+      { type: "order_placed", hoursAgo: 300 },
+      { type: "payment_confirmed", hoursAgo: 300, detail: "Credit card" },
+      {
+        type: "tickets_sent",
+        hoursAgo: 299,
+        detail: "Sent to t.richter@example.com",
+      },
+      {
+        type: "refund_requested",
+        hoursAgo: 30,
+        detail: "Waiting for the shop to decide",
+      },
+    ],
+  },
+  {
+    order: {
+      id: "ord_007",
+      orderNumber: "TB-100007",
+      email: "nina.br@example.com",
+      shopId: "shop_opennord",
+      product: "Frühlingslauf — 1 ticket",
+      eventDate: inDays(120),
+      priceCents: 2900,
+    },
+    events: [
+      { type: "order_placed", hoursAgo: 400 },
+      { type: "payment_confirmed", hoursAgo: 400, detail: "PayPal" },
+      {
+        type: "tickets_sent",
+        hoursAgo: 399,
+        detail: "Sent to nina.br@example.com",
+      },
+      {
+        type: "event_rescheduled",
+        hoursAgo: 48,
+        detail: "Moved to a later date, tickets stay valid",
+      },
+    ],
+  },
+];
+
 migrate(db, { migrationsFolder: "drizzle" });
 
-// idempotent re-seeding 
-db.delete(articles).run(); 
+// idempotent re-seeding
+db.delete(articles).run();
 db.insert(articles).values(SEED_ARTICLES).run();
 
-console.log(`Seeded ${SEED_ARTICLES.length} articles into ${DB_FILE}`);
+db.delete(orderEvents).run();
+db.delete(orders).run();
+db.delete(shops).run();
+db.insert(shops).values(SEED_SHOPS).run();
+db.insert(orders)
+  .values(SEED_ORDERS.map((entry) => entry.order))
+  .run();
+db.insert(orderEvents)
+  .values(
+    SEED_ORDERS.flatMap(({ order, events }) =>
+      events.map((event, i) => ({
+        id: `${order.id}_e${i}`,
+        orderId: order.id,
+        type: event.type,
+        detail: event.detail,
+        createdAt: timestamp(event.hoursAgo),
+      })),
+    ),
+  )
+  .run();
+
+console.log(
+  `Seeded ${SEED_ARTICLES.length} articles, ${SEED_SHOPS.length} shops and ${SEED_ORDERS.length} orders into ${DB_FILE}`,
+);
