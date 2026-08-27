@@ -40,4 +40,4 @@ The app runs at http://localhost:3000.
 | `/search?q=` | Ranked results; no match links on to find-booking |
 | `/articles/[slug]` | A single article |
 | `/find-booking` | Order number + email lookup |
-| `/booking` | Header, diagnosis, actions and timeline for the looked-up order |
+| `/booking` | Diagnosis, actions, timeline and the contact form for the looked-up order |

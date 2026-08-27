@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ActionButtons } from "@/components/booking/action-buttons";
+import { ContactSupport } from "@/components/booking/contact-support";
 import { DiagnosisBanner } from "@/components/booking/diagnosis-banner";
 import { Timeline } from "@/components/booking/timeline";
 import { diagnose, findBooking } from "@/lib/bookings";
@@ -56,6 +57,7 @@ export default async function BookingPage() {
           orderNumber={order.orderNumber}
         />
         <Timeline events={events} cause={diagnosis.cause} />
+        <ContactSupport orderNumber={order.orderNumber} />
       </div>
     </main>
   );

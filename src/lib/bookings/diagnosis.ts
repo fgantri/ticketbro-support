@@ -12,7 +12,10 @@ export type Diagnosis = {
   detail: string;
   /** Event type the timeline highlights as the reason for this diagnosis. */
   cause: EventType | null;
-  /** Which actions this state should offer. */
+  /**
+   * Which actions this state should offer. May be empty — contacting support
+   * sits below them and is always available.
+   */
   actions: ActionId[];
 };
 
@@ -31,7 +34,7 @@ const RULES: Rule[] = [
       detail:
         "The organiser cancelled this event. The shop refunds it through the payment method you used.",
       cause: "event_cancelled",
-      actions: ["download-receipt", "contact-support"],
+      actions: ["download-receipt"],
     },
   },
   {
@@ -43,7 +46,7 @@ const RULES: Rule[] = [
       detail:
         "No tickets were issued because the payment failed. Book again or use a different payment method.",
       cause: "payment_failed",
-      actions: ["contact-support"],
+      actions: [],
     },
   },
   {
@@ -55,7 +58,7 @@ const RULES: Rule[] = [
       detail:
         "Tickets are sent as soon as the payment is confirmed. Bank transfers can take up to two business days.",
       cause: "payment_pending",
-      actions: ["contact-support"],
+      actions: [],
     },
   },
   {
@@ -67,7 +70,7 @@ const RULES: Rule[] = [
       detail:
         "The shop decides about the refund and you get the decision by email.",
       cause: "refund_requested",
-      actions: ["download-receipt", "contact-support"],
+      actions: ["download-receipt"],
     },
   },
   {
@@ -131,7 +134,7 @@ const RULES: Rule[] = [
       title: "Your booking is being processed",
       detail: "Nothing went wrong so far — the tickets are on their way.",
       cause: null,
-      actions: ["contact-support"],
+      actions: [],
     },
   },
 ];

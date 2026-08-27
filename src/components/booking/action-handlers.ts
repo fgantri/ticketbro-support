@@ -32,12 +32,6 @@ export const HANDLERS: Record<ActionId, ActionHandler> = {
     `render the receipt over ${booking.price} for ${booking.shop}`,
     `serve it as receipt-${booking.orderNumber}.pdf`,
   ]),
-
-  "contact-support": preview("contact-support", (booking) => [
-    "open the message form",
-    `attach ${booking.orderNumber}, ${booking.email}, diagnosis ${booking.diagnosis}`,
-    `attach the last events: ${booking.lastEvents.join(", ")}`,
-  ]),
 };
 
 /** Fetches the booking, then reports what the real implementation would do. */
