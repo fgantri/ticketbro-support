@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { findBooking } from "@/lib/bookings";
+import { startBookingSession } from "@/lib/bookings/session";
 
 const FIELD =
   "mt-1 w-full rounded-lg border border-neutral-300 px-4 py-2.5 text-neutral-900 focus:border-neutral-900 focus:outline-none";
@@ -9,9 +11,20 @@ export default async function FindBookingPage({
 }: PageProps<"/find-booking">) {
   const { error } = await searchParams;
 
-  async function findBooking() {
+  async function lookUpBooking(formData: FormData) {
     "use server";
-    redirect("/find-booking?error=1");
+
+    const orderNumber = String(formData.get("orderNumber") ?? "");
+    const email = String(formData.get("email") ?? "");
+    const booking = await findBooking(orderNumber, email);
+
+    // One generic error — never hint which of the two was wrong.
+    if (!booking) {
+      redirect("/find-booking?error=1");
+    }
+
+    await startBookingSession(booking.order.orderNumber, booking.order.email);
+    redirect("/booking");
   }
 
   return (
@@ -28,7 +41,7 @@ export default async function FindBookingPage({
         account needed.
       </p>
 
-      <form action={findBooking} className="mt-8 max-w-sm">
+      <form action={lookUpBooking} className="mt-8 max-w-sm">
         <label className="block text-sm font-medium text-neutral-900">
           Order number
           <input name="orderNumber" required className={FIELD} />
