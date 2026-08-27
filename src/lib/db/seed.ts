@@ -283,6 +283,26 @@ const SEED_ORDERS: SeedOrder[] = [
       },
     ],
   },
+  {
+    order: {
+      id: "ord_008",
+      orderNumber: "TB-100008",
+      email: "p.schulz@example.com",
+      shopId: "shop_opennord",
+      product: "Jazznacht — 2 tickets",
+      eventDate: inDays(-9),
+      priceCents: 5400,
+    },
+    events: [
+      { type: "order_placed", hoursAgo: 600 },
+      { type: "payment_confirmed", hoursAgo: 600, detail: "SEPA" },
+      {
+        type: "tickets_sent",
+        hoursAgo: 599,
+        detail: "Sent to p.schulz@example.com",
+      },
+    ],
+  },
 ];
 
 migrate(db, { migrationsFolder: "drizzle" });

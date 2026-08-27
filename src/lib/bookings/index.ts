@@ -1,17 +1,10 @@
 import { and, asc, eq } from "drizzle-orm";
 import { db } from "@/lib/db";
-import {
-  orderEvents,
-  orders,
-  shops,
-  type Order,
-  type OrderEvent,
-  type Shop,
-} from "@/lib/db/schema";
+import { orderEvents, orders, shops } from "@/lib/db/schema";
+import type { Booking } from "./types";
 
-export type Booking = { order: Order; shop: Shop; events: OrderEvent[] };
-
-export type { Diagnosis } from "./diagnosis";
+export type { Booking } from "./types";
+export type { Diagnosis, Severity } from "./diagnosis";
 export { diagnose } from "./diagnosis";
 
 /** Order number plus email is the whole authentication — both must match. */
@@ -33,6 +26,7 @@ export async function findBooking(
 
   if (!row) return null;
 
+  // Ascending order is a promise the event helpers rely on — do not change it.
   const events = await db
     .select()
     .from(orderEvents)
