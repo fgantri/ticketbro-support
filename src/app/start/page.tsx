@@ -29,27 +29,29 @@ export default function StartPage() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <h1 className="text-3xl font-semibold tracking-tight text-neutral-900">
-        Who are you?
-      </h1>
-      <p className="mt-2 text-neutral-600">
-        Tell us how you use TicketBro and we&rsquo;ll show the help that fits.
-      </p>
+    <main className="mx-auto max-w-3xl px-6 py-12">
+      <section className="card p-8 sm:p-10">
+        <h1 className="text-3xl font-extrabold tracking-tight text-ink">
+          Who are you?
+        </h1>
+        <p className="mt-2 text-muted">
+          Tell us how you use TicketBro and we&rsquo;ll show the help that fits.
+        </p>
 
-      <form action={choosePersona} className="mt-8 grid gap-3 sm:grid-cols-2">
-        <PersonaCard
-          persona="customer"
-          title="I bought a ticket"
-          description="Ticket not received, wrong email, refund or receipt."
-        />
-        <PersonaCard
-          persona="provider"
-          title="I sell tickets"
-          description="Payouts, event setup and invoices."
-          disabled
-        />
-      </form>
+        <form action={choosePersona} className="mt-8 grid gap-3 sm:grid-cols-2">
+          <PersonaCard
+            persona="customer"
+            title="I bought a ticket"
+            description="Ticket not received, wrong email, refund or receipt."
+          />
+          <PersonaCard
+            persona="provider"
+            title="I sell tickets"
+            description="Payouts, event setup and invoices."
+            disabled
+          />
+        </form>
+      </section>
     </main>
   );
 }
@@ -74,20 +76,17 @@ function PersonaCard({
       value={persona}
       disabled={disabled}
       aria-describedby={disabled ? statusId : undefined}
-      className={`flex h-full w-full flex-col rounded-lg border border-neutral-200 p-5 text-left transition-colors ${
+      className={`flex h-full w-full flex-col rounded-2xl border p-5 text-left transition-colors ${
         disabled
-          ? "cursor-not-allowed border-dashed opacity-60"
-          : "cursor-pointer hover:border-neutral-400"
+          ? "cursor-not-allowed border-dashed border-line-strong opacity-60"
+          : "cursor-pointer border-line hover:border-brand hover:bg-brand-soft"
       }`}
     >
-      <span className="font-medium text-neutral-900">{title}</span>
-      <span className="mt-1 text-sm text-neutral-600">{description}</span>
+      <span className="font-bold text-ink">{title}</span>
+      <span className="mt-1 text-sm text-muted">{description}</span>
       {disabled && (
-        <span
-          id={statusId}
-          className="mt-3 w-fit rounded border border-neutral-300 px-2 py-0.5 text-xs font-medium uppercase tracking-wide text-neutral-500"
-        >
-          Coming soon
+        <span className="eyebrow mt-3 w-fit rounded-md bg-canvas px-2 py-1 text-muted">
+          <span id={statusId}>Coming soon</span>
         </span>
       )}
     </button>

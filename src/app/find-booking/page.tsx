@@ -1,10 +1,7 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
+import { BackLink } from "@/components/back-link";
 import { findBooking } from "@/lib/bookings";
 import { startBookingSession } from "@/lib/bookings/session";
-
-const FIELD =
-  "mt-1 w-full rounded-lg border border-neutral-300 px-4 py-2.5 text-neutral-900 focus:border-neutral-900 focus:outline-none";
 
 export default async function FindBookingPage({
   searchParams,
@@ -28,43 +25,56 @@ export default async function FindBookingPage({
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <Link href="/" className="text-sm text-neutral-600 hover:text-neutral-900">
-        ← Back
-      </Link>
+    <main className="mx-auto max-w-3xl px-6 py-12">
+      <BackLink />
 
-      <h1 className="mt-6 text-2xl font-semibold tracking-tight text-neutral-900">
-        Find my booking
-      </h1>
-      <p className="mt-2 text-neutral-600">
-        Enter your order number and the email address you booked with. No
-        account needed.
-      </p>
+      <section className="card mt-6 p-8 sm:p-10">
+        <h1 className="text-2xl font-extrabold tracking-tight text-ink">
+          Find my booking
+        </h1>
+        <p className="mt-2 text-muted">
+          Enter your order number and the email address you booked with. No
+          account needed.
+        </p>
 
-      <form action={lookUpBooking} className="mt-8 max-w-sm">
-        <label className="block text-sm font-medium text-neutral-900">
-          Order number
-          <input name="orderNumber" required className={FIELD} />
-        </label>
+        <form action={lookUpBooking} className="mt-8 max-w-sm">
+          <label className="block">
+            <span className="text-sm font-semibold text-ink">Order number</span>
+            <input 
+              name="orderNumber" 
+              required 
+              className="field mt-1.5"
+              placeholder="TB-100002"
+            />
+          </label>
 
-        <label className="mt-4 block text-sm font-medium text-neutral-900">
-          Email address
-          <input type="email" name="email" required className={FIELD} />
-        </label>
+          <label className="mt-5 block">
+            <span className="text-sm font-semibold text-ink">
+              Email address
+            </span>
+            <input
+              type="email"
+              name="email"
+              required
+              className="field mt-1.5"
+              placeholder="you@example.com"
+            />
+          </label>
 
-        {error && (
-          <p role="alert" className="mt-4 text-sm text-red-700">
-            No booking found for this combination.
-          </p>
-        )}
+          {error && (
+            <p
+              role="alert"
+              className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+            >
+              No booking found for this combination.
+            </p>
+          )}
 
-        <button
-          type="submit"
-          className="mt-6 rounded-lg bg-neutral-900 px-5 py-2.5 font-medium text-white transition-colors hover:bg-neutral-700"
-        >
-          Find booking
-        </button>
-      </form>
+          <button type="submit" className="btn btn-primary mt-6 w-full sm:w-auto">
+            Find booking
+          </button>
+        </form>
+      </section>
     </main>
   );
 }

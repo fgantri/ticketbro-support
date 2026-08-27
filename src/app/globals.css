@@ -1,1 +1,131 @@
 @import "tailwindcss";
+
+/*
+ * TicketBro design tokens — sampled from the product UI.
+ * Blue is the only accent: it marks the brand and the one action that matters
+ * on a screen. Everything else is ink on a grey canvas with white surfaces.
+ */
+@theme {
+  --color-canvas: #f1f2f4;
+  --color-surface: #ffffff;
+
+  --color-brand: #060ed0;
+  --color-brand-hover: #040ba6;
+  --color-brand-soft: #edeefc;
+  --color-brand-ring: #c1c3f3;
+
+  --color-ink: #20293a;
+  --color-muted: #677489;
+  --color-faint: #97a3b6;
+
+  --color-line: #e7e9ee;
+  --color-line-strong: #cdd5e0;
+
+  --font-sans: var(--font-brand), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: var(--color-brand-ring);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* White surface on the grey canvas — the base of every block. */
+  .card {
+    border-radius: 1rem;
+    border: 1px solid var(--color-line);
+    background-color: var(--color-surface);
+  }
+
+  /* Same card, but clickable: the border picks up the brand on hover. */
+  .card-interactive {
+    border-radius: 1rem;
+    border: 1px solid var(--color-line);
+    background-color: var(--color-surface);
+    transition:
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+
+  .card-interactive:hover {
+    border-color: var(--color-brand-ring);
+    box-shadow: 0 1px 2px rgb(32 41 58 / 0.06);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    transition: background-color 150ms ease;
+  }
+
+  .btn-primary {
+    background-color: var(--color-brand);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-brand-hover);
+  }
+
+  .btn-secondary {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-line-strong);
+  }
+
+  /* Inputs sit flush on white: a hairline at rest, brand blue when focused. */
+  .field {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-line);
+    background-color: var(--color-surface);
+    padding: 0.875rem 1rem;
+    color: var(--color-ink);
+    transition:
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+
+  .field::placeholder {
+    color: var(--color-faint);
+  }
+
+  .field:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgb(6 14 208 / 0.12);
+  }
+
+  /* Small uppercase heading above a section. */
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+}

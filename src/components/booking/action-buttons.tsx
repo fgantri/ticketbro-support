@@ -14,9 +14,7 @@ export function ActionButtons({
 
   return (
     <section>
-      <h2 className="text-sm font-medium uppercase tracking-wide text-neutral-500">
-        What you can do
-      </h2>
+      <h2 className="eyebrow">What you can do</h2>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {actions.map((id) => (
@@ -24,12 +22,10 @@ export function ActionButtons({
             key={id}
             type="button"
             onClick={() => void HANDLERS[id](orderNumber)}
-            className="rounded-lg border border-neutral-200 p-4 text-left transition-colors hover:border-neutral-400"
+            className="card-interactive cursor-pointer p-5 text-left"
           >
-            <span className="font-medium text-neutral-900">
-              {ACTIONS[id].label}
-            </span>
-            <span className="mt-1 block text-sm text-neutral-600">
+            <span className="font-bold text-ink">{ACTIONS[id].label}</span>
+            <span className="mt-1 block text-sm text-muted">
               {ACTIONS[id].description}
             </span>
           </button>

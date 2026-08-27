@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
+import { BackLink } from "@/components/back-link";
 import { ActionButtons } from "@/components/booking/action-buttons";
 import { ContactSupport } from "@/components/booking/contact-support";
 import { DiagnosisBanner } from "@/components/booking/diagnosis-banner";
@@ -32,25 +32,23 @@ export default async function BookingPage() {
   const diagnosis = diagnose(booking);
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <Link href="/" className="text-sm text-neutral-600 hover:text-neutral-900">
-        ← Back
-      </Link>
+    <main className="mx-auto max-w-3xl px-6 py-12">
+      <BackLink />
 
-      <header className="mt-6 mb-8">
-        <p className="text-sm text-neutral-500">
+      <header className="card mt-6 p-6 sm:p-8">
+        <p className="text-sm font-medium text-faint">
           {shop.name} · {order.orderNumber}
         </p>
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-neutral-900">
+        <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-ink">
           {order.product}
         </h1>
-        <p className="mt-1 text-neutral-600">
+        <p className="mt-1 text-muted">
           {day.format(order.eventDate)} ·{" "}
           {money(order.priceCents, order.currency)}
         </p>
       </header>
 
-      <div className="grid gap-10">
+      <div className="mt-6 grid gap-6">
         <DiagnosisBanner diagnosis={diagnosis} />
         <ActionButtons
           actions={diagnosis.actions}

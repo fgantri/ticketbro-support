@@ -28,34 +28,37 @@ export function Timeline({
 
   return (
     <section>
-      <h2 className="text-sm font-medium uppercase tracking-wide text-neutral-500">
-        Order history
-      </h2>
+      <h2 className="eyebrow">Order history</h2>
 
-      <ol className="mt-4 border-l border-neutral-200">
-        {[...events].reverse().map((event) => {
+      <ol className="card mt-4 p-6">
+        {[...events].reverse().map((event, index, all) => {
           const highlighted = event.id === highlightId;
 
           return (
-            <li key={event.id} className="relative py-3 pl-5">
+            <li key={event.id} className="relative flex gap-4 pb-6 last:pb-0">
+              {index < all.length - 1 && (
+                <span className="absolute left-[5px] top-3 bottom-0 w-px bg-line" />
+              )}
               <span
-                className={`absolute -left-0.75 top-5 size-1.5 rounded-full ${
-                  highlighted ? "bg-neutral-900" : "bg-neutral-300"
+                className={`relative mt-1.5 size-2.5 shrink-0 rounded-full ${
+                  highlighted
+                    ? "bg-brand ring-4 ring-brand-soft"
+                    : "bg-line-strong"
                 }`}
               />
-              <p
-                className={
-                  highlighted
-                    ? "font-medium text-neutral-900"
-                    : "text-neutral-700"
-                }
-              >
-                {EVENT_LABELS[event.type]}
-              </p>
-              <p className="text-sm text-neutral-500">
-                {dateTime.format(event.createdAt)}
-                {event.detail && ` · ${event.detail}`}
-              </p>
+              <div className="min-w-0">
+                <p
+                  className={
+                    highlighted ? "font-bold text-brand" : "font-medium text-ink"
+                  }
+                >
+                  {EVENT_LABELS[event.type]}
+                </p>
+                <p className="mt-0.5 text-sm text-faint">
+                  {dateTime.format(event.createdAt)}
+                  {event.detail && ` · ${event.detail}`}
+                </p>
+              </div>
             </li>
           );
         })}

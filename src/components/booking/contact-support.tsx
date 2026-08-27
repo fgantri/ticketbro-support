@@ -3,15 +3,6 @@
 import type { SubmitEvent } from "react";
 import { describeBooking } from "@/app/booking/actions";
 
-/**
- * The last step of the funnel, and the only one that costs an agent time. The
- * customer writes what they need; the order details, the diagnosis and the last
- * events are attached automatically — that is the whole point, so nobody has to
- * ask "what is your order number?" ever again.
- *
- * The demo shows the assembled case in an alert. A real implementation hands the
- * same data to a Server Action that creates the case and returns its number.
- */
 export function ContactSupport({ orderNumber }: { orderNumber: string }) {
   async function submit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -52,29 +43,30 @@ export function ContactSupport({ orderNumber }: { orderNumber: string }) {
 
   return (
     <section>
-      <h2 className="text-sm font-medium uppercase tracking-wide text-neutral-500">
-        None of this helped?
-      </h2>
-      <p className="mt-2 text-sm text-neutral-600">
-        Describe what you need and we pass it on. Your order details, the
-        diagnosis and the last events go with it — no need to repeat them.
-      </p>
+      <h2 className="eyebrow">None of this helped?</h2>
 
-      <form onSubmit={submit} className="mt-4">
-        <textarea
-          name="message"
-          rows={4}
-          required
-          placeholder="What should we look into?"
-          className="w-full rounded-lg border border-neutral-300 px-4 py-2.5 text-neutral-900 placeholder:text-neutral-400 focus:border-neutral-900 focus:outline-none"
-        />
-        <button
-          type="submit"
-          className="mt-3 rounded-lg bg-neutral-900 px-5 py-2.5 font-medium text-white transition-colors hover:bg-neutral-700"
-        >
-          Send to support
-        </button>
-      </form>
+      <div className="card mt-4 p-6 sm:p-8">
+        <p className="text-sm text-muted">
+          Describe what you need and we pass it on. Your order details, the
+          diagnosis and the last events go with it — no need to repeat them.
+        </p>
+
+        <form onSubmit={submit} className="mt-5">
+          <textarea
+            name="message"
+            rows={4}
+            required
+            placeholder="What should we look into?"
+            className="field resize-y"
+          />
+          <button
+            type="submit"
+            className="btn btn-primary mt-4 w-full sm:w-auto"
+          >
+            Send to support
+          </button>
+        </form>
+      </div>
     </section>
   );
 }
