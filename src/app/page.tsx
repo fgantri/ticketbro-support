@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArticleCard } from "@/components/article-card";
+import { OrderLink } from "@/components/order-link";
 import { SearchBar } from "@/components/search-bar";
 import { listArticles } from "@/lib/articles";
 import { getPersona } from "@/lib/persona";
@@ -47,17 +48,9 @@ export default async function Home() {
         </ul>
       </section>
 
-      <section className="card mt-6 flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="font-bold text-ink">Already booked?</h2>
-          <p className="mt-1 text-sm text-muted">
-            Look up your order to see its status and fix it yourself.
-          </p>
-        </div>
-        <Link href="/find-booking" className="btn btn-primary shrink-0">
-          Find my booking
-        </Link>
-      </section>
+      <div className="mt-6">
+        <OrderLink />
+      </div>
 
       <p className="mt-8 text-sm text-faint">
         Showing help for customers.{" "}

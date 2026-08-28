@@ -12,6 +12,22 @@ npm run dev
 
 The app runs at http://localhost:3000.
 
+## Test data
+
+Log in at `/find-booking` with one of the seeded pairs — each covers a different
+diagnosis:
+
+| Order number | Email | Diagnosis |
+| --- | --- | --- |
+| `TB-100001` | `lena.mayer@example.com` | Tickets were sent |
+| `TB-100002` | `jonas.k@exampl.com` | Ticket mail bounced |
+| `TB-100003` | `s.hoffmann@example.com` | Payment pending |
+| `TB-100004` | `m.bauer@example.com` | Payment failed |
+| `TB-100005` | `clara.wolf@example.com` | Event cancelled |
+| `TB-100006` | `t.richter@example.com` | Refund requested |
+| `TB-100007` | `nina.br@example.com` | Event moved |
+| `TB-100008` | `p.schulz@example.com` | Event over |
+
 ## Stack
 
 - Next.js 16 (App Router, React Server Components)

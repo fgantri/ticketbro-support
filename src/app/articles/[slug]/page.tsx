@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { BackLink } from "@/components/back-link";
+import { OrderLink } from "@/components/order-link";
 import { getArticleBySlug } from "@/lib/articles";
 
 export default async function ArticlePage({
@@ -22,6 +23,11 @@ export default async function ArticlePage({
         </h1>
         <p className="mt-6 leading-relaxed text-muted">{article.body}</p>
       </article>
+
+      {/* An article explains the problem; the booking is where it gets fixed. */}
+      <div className="mt-6">
+        <OrderLink title="Still stuck?" />
+      </div>
     </main>
   );
 }
